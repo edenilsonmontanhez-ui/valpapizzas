@@ -235,7 +235,18 @@ legend{font-weight:800;font-size:1rem;margin-bottom:8px;padding:0}
 
 <script>
 // ==== INÍCIO DO CARDÁPIO (gerado pela planilha) ====
-const CONFIG = {nome:'Valpa Pizzas',whatsapp:'5518991134034',taxaEntrega:500,pedidoMinimo:0,abertura:'19:00',fechamento:'22:45',dias:[0,2,3,4,5,6],meioAMeio:'maior',aceitarFechado:false,pix:''};
+const CONFIG = {nome:'Valpa Pizzas',whatsapp:'5518996650022',taxaEntrega:500,pedidoMinimo:0,meioAMeio:'maior',aceitarFechado:false,pix:''};
+// Horário por dia da semana (0=domingo ... 6=sábado). null = fechado nesse dia.
+const HORARIOS = {
+  0: {abertura:'19:00', fechamento:'22:30'}, // domingo
+  1: null,                                   // segunda - fechado
+  2: {abertura:'19:00', fechamento:'22:30'}, // terça
+  3: {abertura:'19:00', fechamento:'22:30'}, // quarta
+  4: {abertura:'19:00', fechamento:'23:00'}, // quinta
+  5: {abertura:'19:00', fechamento:'23:00'}, // sexta
+  6: {abertura:'19:00', fechamento:'23:00'}, // sábado
+};
+const NOME_DIA = {0:'Domingo',1:'Segunda',2:'Terça',3:'Quarta',4:'Quinta',5:'Sexta',6:'Sábado'};
 const CARDAPIO = {
 tamanhos: [
 {nome:'Broto',desc:'25 cm, 4 fatias',meio:false},
@@ -312,10 +323,11 @@ function agoraSP(){
 }
 const min = s => { const [h,m] = s.split(':').map(Number); return h*60 + m; };
 function aberto(){
-  const {dia, min:m} = agoraSP(), a = min(CONFIG.abertura), f = min(CONFIG.fechamento);
-  if (f > a) return CONFIG.dias.includes(dia) && m >= a && m < f;
-  if (m >= a) return CONFIG.dias.includes(dia);
-  if (m < f) return CONFIG.dias.includes((dia+6)%7);
+  const {dia, min:m} = agoraSP();
+  const hj = HORARIOS[dia];
+  if (hj && m >= min(hj.abertura) && m < min(hj.fechamento)) return true;
+  const ontem = HORARIOS[(dia+6)%7];
+  if (ontem && min(ontem.fechamento) <= min(ontem.abertura) && m < min(ontem.fechamento)) return true;
   return false;
 }
 let estaAberto = false;
@@ -323,9 +335,18 @@ function atualizaStatus(){
   estaAberto = aberto();
   const el = $('#status');
   el.className = 'status ' + (estaAberto ? 'aberto' : 'fechado');
-  $('#statusTxt').textContent = estaAberto
-    ? 'Aberto agora, até ' + hm(CONFIG.fechamento)
-    : 'Fechado. Pedidos das ' + hm(CONFIG.abertura) + ' às ' + hm(CONFIG.fechamento);
+  const {dia} = agoraSP();
+  const hj = HORARIOS[dia];
+  if (estaAberto){
+    $('#statusTxt').textContent = 'Aberto agora, até ' + hm(hj.fechamento);
+  } else {
+    let prox = dia, tentativas = 0;
+    do { prox = (prox+1)%7; tentativas++; } while (!HORARIOS[prox] && tentativas < 7);
+    const h = HORARIOS[prox];
+    $('#statusTxt').textContent = h
+      ? 'Fechado. Volta ' + (prox===dia?'hoje':(tentativas===1?'amanhã':NOME_DIA[prox])) + ' das ' + hm(h.abertura) + ' às ' + hm(h.fechamento)
+      : 'Fechado';
+  }
   if (!$('#folhaCarrinho').hidden) renderTotais();
 }
 
@@ -408,7 +429,13 @@ function renderCardapio(){
   $('#abas').innerHTML = nav;
   $('#cardapio').innerHTML = html;
   const taxa = CONFIG.taxaEntrega > 0 ? 'Taxa de entrega ' + brl(CONFIG.taxaEntrega) : 'Entrega grátis';
-  $('#rodape').textContent = 'Food Park Valparaíso, Av Marginal. ' + taxa + '. Pagamento: Pix, cartão na entrega ou dinheiro. Atendimento das ' + hm(CONFIG.abertura) + ' às ' + hm(CONFIG.fechamento) + '.';
+  const linhaHorario = [0,1,2,3,4,5,6].map(d => {
+    const h = HORARIOS[d];
+    return NOME_DIA[d] + ': ' + (h ? hm(h.abertura) + ' às ' + hm(h.fechamento) : 'Fechado');
+  }).join(' · ');
+  $('#rodape').innerHTML = '<strong>Horário de atendimento</strong><br>' + esc(linhaHorario)
+    + '<br><br>Food Park Valparaíso, Av Marginal<br><br>'
+    + esc(taxa + '. Pagamento: Pix, cartão na entrega ou dinheiro.');
 }
 $('#cardapio').addEventListener('click', e => {
   const pz = e.target.closest('[data-pizza]'); if (pz) return abrirPizza(pz.dataset.pizza, pz);
@@ -557,7 +584,7 @@ function renderTotais(){
     + '<dt class="t">Total</dt><dd class="t">'+brl(c.total)+'</dd>';
   const bloqueado = !estaAberto && !CONFIG.aceitarFechado;
   $('#ctEnviar').disabled = !carrinho.length || bloqueado;
-  if (bloqueado) $('#ctMsg').innerHTML = '<p class="erro">Estamos fechados agora. Recebemos pedidos das '+hm(CONFIG.abertura)+' às '+hm(CONFIG.fechamento)+'. Seu pedido fica salvo neste aparelho.</p>';
+  if (bloqueado) $('#ctMsg').innerHTML = '<p class="erro">Estamos fechados agora. Confira nosso horário de atendimento no rodapé da página. Seu pedido fica salvo neste aparelho.</p>';
   else if ($('#ctMsg').dataset.fixo !== '1') $('#ctMsg').innerHTML = '';
 }
 ct.addEventListener('input', () => {
