@@ -342,16 +342,19 @@ function atualizaStatus(){
   estaAberto = aberto();
   const el = $('#status');
   el.className = 'status ' + (estaAberto ? 'aberto' : 'fechado');
-  const {dia} = agoraSP();
+  const {dia, min:agora} = agoraSP();
   const hj = HORARIOS[dia];
   if (estaAberto){
     $('#statusTxt').textContent = 'Aberto agora, até ' + hm(hj.fechamento);
+  } else if (hj && agora < min(hj.abertura)){
+    // ainda não abriu hoje (ex.: depois da meia-noite ou durante a tarde)
+    $('#statusTxt').textContent = 'Fechado. Voltamos hoje às ' + hm(hj.abertura);
   } else {
     let prox = dia, tentativas = 0;
     do { prox = (prox+1)%7; tentativas++; } while (!HORARIOS[prox] && tentativas < 7);
     const h = HORARIOS[prox];
     $('#statusTxt').textContent = h
-      ? 'Fechado. Volta ' + (prox===dia?'hoje':(tentativas===1?'amanhã':NOME_DIA[prox])) + ' das ' + hm(h.abertura) + ' às ' + hm(h.fechamento)
+      ? 'Fechado. Voltamos ' + (tentativas===1 ? 'amanhã' : NOME_DIA[prox].toLowerCase()) + ' às ' + hm(h.abertura)
       : 'Fechado';
   }
   if (!$('#folhaCarrinho').hidden) renderTotais();
@@ -639,10 +642,21 @@ function mensagem(d, c){
   else L.push('*Retirada no balcão*');
   L.push('', '*Itens*');
   carrinho.forEach(it => {
-    const x = descItem(it);
-    L.push(it.qtd + 'x ' + x.t + ' = ' + brl(precoItem(it) * it.qtd));
-    if (x.s) L.push('   ' + x.s);
+    const valor = brl(precoItem(it) * it.qtd);
+    if (it.tipo === 'pizza'){
+      const nomes = it.sabores.map(id => pizza(id).nome);
+      const meio = nomes.length > 1;
+      L.push(it.qtd + 'x *Pizza ' + TAM[it.tam].nome + (meio ? ' (meio a meio)' : '') + '* = ' + valor);
+      if (meio) nomes.forEach(n => L.push('   ½ ' + n));
+      else L.push('   Sabor: ' + nomes[0]);
+      L.push('   ' + (it.borda ? 'Borda ' + it.borda : 'Sem borda'));
+      if (it.obs) L.push('   Obs.: ' + it.obs);
+    } else {
+      L.push(it.qtd + 'x ' + descItem(it).t + ' = ' + valor);
+    }
+    L.push('');
   });
+  L.pop();
   L.push('', 'Subtotal: ' + brl(c.sub));
   if (d.tipo === 'entrega') L.push('Taxa de entrega: ' + brl(c.taxa));
   L.push('*Total: ' + brl(c.total) + '*', '');
