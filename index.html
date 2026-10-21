@@ -196,9 +196,10 @@ legend{font-weight:800;font-size:1rem;margin-bottom:8px;padding:0}
     <ul class="itens" id="ctItens"></ul>
     <form id="ctForm" onsubmit="return false">
       <fieldset><legend>Como você quer receber?</legend>
-        <div class="opcoes tres" style="grid-template-columns:1fr 1fr">
+        <div class="opcoes tres">
           <div class="op"><input type="radio" name="tipo" id="tpEnt" value="entrega" checked><label for="tpEnt">Entrega<small id="tpEntTaxa"></small></label></div>
           <div class="op"><input type="radio" name="tipo" id="tpRet" value="retirada"><label for="tpRet">Retirar no balcão<small>Sem taxa</small></label></div>
+          <div class="op"><input type="radio" name="tipo" id="tpLoc" value="local"><label for="tpLoc">Comer no local<small>Sem taxa</small></label></div>
         </div>
       </fieldset>
       <fieldset><legend>Seus dados</legend>
@@ -220,7 +221,7 @@ legend{font-weight:800;font-size:1rem;margin-bottom:8px;padding:0}
           <div class="op"><input type="radio" name="pag" id="pgCar" value="Cartão na entrega"><label for="pgCar">Cartão</label></div>
           <div class="op"><input type="radio" name="pag" id="pgDin" value="Dinheiro"><label for="pgDin">Dinheiro</label></div>
         </div>
-        <p class="aviso" id="pgCarAviso" hidden>A maquininha vai até você (ou é usada no balcão, na retirada).</p>
+        <p class="aviso" id="pgCarAviso" hidden>A maquininha vai até você (ou é usada no balcão, na retirada ou no local).</p>
         <div class="pix" id="pgPixChave" hidden></div>
         <label class="campo" id="pgTrocoBox" hidden><span>Troco para quanto? (deixe vazio se não precisar)</span><input name="troco" inputmode="decimal" placeholder="Ex.: 100,00"></label>
       </fieldset>
@@ -537,6 +538,7 @@ const ct = $('#ctForm');
 const cliente = store.get('valpa:cliente', {});
 ['nome','telefone','rua','numero','bairro','complemento','referencia'].forEach(k => { if (cliente[k]) ct.elements[k].value = cliente[k]; });
 if (cliente.tipo === 'retirada') $('#tpRet').checked = true;
+if (cliente.tipo === 'local') $('#tpLoc').checked = true;
 if (cliente.pag) { const r = ct.querySelector('input[name=pag][value="'+cliente.pag+'"]'); if (r) r.checked = true; }
 $('#tpEntTaxa').textContent = CONFIG.taxaEntrega > 0 ? '+ ' + brl(CONFIG.taxaEntrega) : 'Grátis';
 
@@ -633,7 +635,8 @@ function mensagem(d, c){
   if (d.tipo === 'entrega'){
     L.push('*Entrega:* ' + d.rua + ', ' + d.numero + (d.complemento ? ' (' + d.complemento + ')' : '') + ', ' + d.bairro);
     if (d.referencia) L.push('*Referência:* ' + d.referencia);
-  } else L.push('*Retirada no balcão*');
+  } else if (d.tipo === 'local') L.push('*Comer no local*');
+  else L.push('*Retirada no balcão*');
   L.push('', '*Itens*');
   carrinho.forEach(it => {
     const x = descItem(it);
@@ -643,7 +646,7 @@ function mensagem(d, c){
   L.push('', 'Subtotal: ' + brl(c.sub));
   if (d.tipo === 'entrega') L.push('Taxa de entrega: ' + brl(c.taxa));
   L.push('*Total: ' + brl(c.total) + '*', '');
-  let pg = '*Pagamento:* ' + d.pag;
+  let pg = '*Pagamento:* ' + (d.pag === 'Cartão na entrega' && d.tipo !== 'entrega' ? 'Cartão' : d.pag);
   if (d.pag === 'Dinheiro'){
     const t = moeda(d.troco);
     pg += t > 0 ? ', troco para ' + brl(t) + ' (troco de ' + brl(t - c.total) + ')' : ', sem troco';
