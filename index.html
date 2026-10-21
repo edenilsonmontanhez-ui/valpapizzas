@@ -66,6 +66,7 @@ main{max-width:720px;margin:0 auto;padding:8px 16px 140px}
 .secao{padding-top:22px}
 .secao h2{font-family:var(--marca);font-weight:400;font-size:1.55rem;color:var(--tomate);margin:0 0 2px;letter-spacing:-.01em}
 .secao > p{margin:0 0 8px;color:var(--suave);font-size:.93rem}
+.sub-beb{margin:18px 0 2px;font-size:1rem;font-weight:700;color:var(--marrom);text-transform:uppercase;letter-spacing:.04em}
 .lista{list-style:none;margin:0;padding:0}
 .lista li + li{border-top:1px solid var(--linha)}
 .item{display:flex;gap:14px;align-items:center;width:100%;padding:16px 2px;background:none;border:0;text-align:left;cursor:pointer}
@@ -253,41 +254,46 @@ tamanhos: [
 {nome:'Grande',desc:'35 cm, 8 fatias',meio:true},
 ],
 pizzas: [
-{id:'P01',nome:'Bacon',cat:'salgada',ing:'Molho de tomate, bacon crocante, mussarela e cebola',precos:[3690,6290]},
-{id:'P02',nome:'Calabresa',cat:'salgada',ing:'Molho de tomate, calabresa fatiada, cebola e mussarela',precos:[3690,6290]},
-{id:'P03',nome:'Calabresa com Catupiry',cat:'salgada',ing:'Molho de tomate, calabresa fatiada, Catupiry e mussarela',precos:[3890,6690]},
-{id:'P04',nome:'Frango',cat:'salgada',ing:'Molho de tomate, frango desfiado, mussarela, milho e Catupiry',precos:[3690,6290]},
-{id:'P05',nome:'Frango com Catupiry',cat:'salgada',ing:'Molho de tomate, frango desfiado, Catupiry e mussarela',precos:[3890,6690]},
-{id:'P06',nome:'Margherita',cat:'salgada',ing:'Molho de tomate, mussarela, tomate, manjericão fresco e parmesão',precos:[3890,6690]},
-{id:'P07',nome:'Milho com Bacon',cat:'salgada',ing:'Molho de tomate, milho, bacon crocante, mussarela e Catupiry',precos:[3690,6290]},
-{id:'P08',nome:'Mussarela',cat:'salgada',ing:'Molho de tomate, mussarela e orégano',precos:[3490,5990]},
-{id:'P09',nome:'Napolitana',cat:'salgada',ing:'Molho de tomate, mussarela, tomate, parmesão e orégano',precos:[3690,6290]},
-{id:'P10',nome:'Pepperoni',cat:'salgada',ing:'Molho de tomate, pepperoni, mussarela e orégano',precos:[3890,6690]},
-{id:'P11',nome:'Portuguesa',cat:'salgada',ing:'Molho de tomate, presunto, ovos, cebola, ervilha, mussarela e azeitona',precos:[3690,6290]},
-{id:'P12',nome:'4 Queijos',cat:'salgada',ing:'Molho de tomate, mussarela, Catupiry, provolone e parmesão',precos:[3890,6690]},
-{id:'P13',nome:'Brigadeiro',cat:'doce',ing:'Mussarela, leite condensado e granulado de chocolate',precos:[3690,6290]},
-{id:'P14',nome:'Chocolate com Morango',cat:'doce',ing:'Chocolate ao leite e morangos frescos',precos:[3790,6390]},
-{id:'P15',nome:'Romeu e Julieta',cat:'doce',ing:'Mussarela e goiabada',precos:[3690,6290]},
+{id:'P01',nome:'Alho-Poró',cat:'salgada',ing:'Molho de tomate, muçarela, alho-poró e orégano',precos:[3790,6290]},
+{id:'P02',nome:'Americana',cat:'salgada',ing:'Molho de tomate, muçarela, bacon, ovos, catupiry, batata palha e orégano',precos:[4090,6890]},
+{id:'P03',nome:'Bacon',cat:'salgada',ing:'Molho de tomate, muçarela, bacon, tomate, azeitona e orégano',precos:[3890,6490]},
+{id:'P04',nome:'Baiana',cat:'salgada',ing:'Molho de tomate, muçarela, calabresa moída, cebola, pimenta calabresa e orégano',precos:[3790,6290]},
+{id:'P05',nome:'Brócolis',cat:'salgada',ing:'Molho de tomate, muçarela, brócolis, alho, bacon e orégano',precos:[3890,6490]},
+{id:'P06',nome:'Calabresa',cat:'salgada',ing:'Molho de tomate, muçarela, calabresa, cebola e orégano',precos:[3590,5890]},
+{id:'P07',nome:'Frango com Catupiry',cat:'salgada',ing:'Molho de tomate, muçarela, frango desfiado, catupiry e orégano',precos:[3990,6690]},
+{id:'P08',nome:'Lombo Canadense',cat:'salgada',ing:'Molho de tomate, muçarela, lombo canadense, cebola e orégano',precos:[4090,6890]},
+{id:'P09',nome:'Margherita',cat:'salgada',ing:'Molho de tomate, muçarela, tomate, manjericão e orégano',precos:[3790,6290]},
+{id:'P10',nome:'Moda da Casa',cat:'salgada',ing:'Molho de tomate, muçarela, calabresa fatiada, lombo canadense em tiras, bacon crocante, catupiry, cebola, azeitona e orégano',precos:[4690,7890]},
+{id:'P11',nome:'Muçarela',cat:'salgada',ing:'Molho de tomate, muçarela, tomate e orégano',precos:[3590,5890]},
+{id:'P12',nome:'Palmito',cat:'salgada',ing:'Molho de tomate, muçarela, palmito e orégano',precos:[3990,6690]},
+{id:'P13',nome:'Pepperoni',cat:'salgada',ing:'Molho de tomate, muçarela, pepperoni e orégano',precos:[4290,7190]},
+{id:'P14',nome:'Portuguesa',cat:'salgada',ing:'Molho de tomate, muçarela, presunto, ovo, cebola, azeitona e orégano',precos:[3990,6690]},
+{id:'P15',nome:'Quatro Queijos',cat:'salgada',ing:'Molho de tomate, muçarela, provolone, parmesão, gorgonzola e orégano',precos:[4290,7190]},
+{id:'P16',nome:'Brigadeiro',cat:'doce',ing:'Chocolate cremoso tipo brigadeiro e chocolate granulado',precos:[3590,5890]},
+{id:'P17',nome:'Prestígio',cat:'doce',ing:'Chocolate cremoso e coco ralado',precos:[3790,6290]},
+{id:'P18',nome:'Romeu e Julieta',cat:'doce',ing:'Goiabada e muçarela',precos:[3590,5890]},
 ],
 bordas: [
 {nome:'Catupiry',preco:900},
 {nome:'Cheddar',preco:900},
 ],
 bebidas: [
-{nome:'Suco de Laranja lata',vol:'335 ml',preco:700},
-{nome:'Suco de Uva lata',vol:'335 ml',preco:700},
-{nome:'Coca-Cola lata',vol:'350 ml',preco:600},
-{nome:'Coca-Cola Zero lata',vol:'350 ml',preco:600},
-{nome:'Fanta Laranja lata',vol:'350 ml',preco:600},
-{nome:'Fanta Uva lata',vol:'350 ml',preco:600},
-{nome:'Sprite lata',vol:'350 ml',preco:600},
-{nome:'Sprite Zero lata',vol:'350 ml',preco:600},
-{nome:'Água mineral com gás',vol:'500 ml',preco:450},
-{nome:'Água mineral sem gás',vol:'500 ml',preco:400},
-{nome:'Coca-Cola',vol:'1 L',preco:900},
-{nome:'Coca-Cola Zero',vol:'1 L',preco:900},
-{nome:'Coca-Cola',vol:'2 L',preco:1400},
-{nome:'Coca-Cola Zero',vol:'2 L',preco:1400},
+{grupo:'Águas',nome:'Água mineral',vol:'500 ml',preco:300},
+{grupo:'Águas',nome:'Água mineral com gás',vol:'500 ml',preco:400},
+{grupo:'Refrigerantes em lata',nome:'Coca-Cola lata',vol:'350 ml',preco:600},
+{grupo:'Refrigerantes em lata',nome:'Coca-Cola Zero lata',vol:'350 ml',preco:600},
+{grupo:'Refrigerantes em lata',nome:'Guaraná lata',vol:'350 ml',preco:600},
+{grupo:'Refrigerantes em lata',nome:'Guaraná Zero lata',vol:'350 ml',preco:600},
+{grupo:'Refrigerantes em lata',nome:'Pepsi lata',vol:'350 ml',preco:600},
+{grupo:'Refrigerantes em lata',nome:'Pepsi Black lata',vol:'350 ml',preco:600},
+{grupo:'Refrigerantes em lata',nome:'Schweppes lata',vol:'350 ml',preco:600},
+{grupo:'Refrigerantes em lata',nome:'Sprite lata',vol:'350 ml',preco:600},
+{grupo:'Refrigerantes em lata',nome:'Sprite Zero lata',vol:'350 ml',preco:600},
+{grupo:'Refrigerantes em lata',nome:'Sukita Laranja lata',vol:'350 ml',preco:600},
+{grupo:'Refrigerantes em lata',nome:'Sukita Uva lata',vol:'350 ml',preco:600},
+{grupo:'Refrigerantes em lata',nome:'Tônica lata',vol:'350 ml',preco:600},
+{grupo:'Refrigerantes Pet 1 L',nome:'Coca-Cola Pet',vol:'1 L',preco:1000},
+{grupo:'Refrigerantes Pet 1 L',nome:'Coca-Cola Zero Pet',vol:'1 L',preco:1000},
 ]
 };
 // ==== FIM DO CARDÁPIO ====
@@ -417,8 +423,14 @@ function renderCardapio(){
   });
   if (CARDAPIO.bebidas.length){
     nav += '<a href="#bebidas">Bebidas</a>';
-    html += '<section class="secao" id="bebidas" aria-labelledby="h-beb"><h2 id="h-beb">Bebidas</h2><ul class="lista">';
+    html += '<section class="secao" id="bebidas" aria-labelledby="h-beb"><h2 id="h-beb">Bebidas</h2>';
+    let grupoAtual = null;
     CARDAPIO.bebidas.forEach(b => {
+      if (b.grupo !== grupoAtual){
+        if (grupoAtual !== null) html += '</ul>';
+        grupoAtual = b.grupo;
+        html += '<h3 class="sub-beb">'+esc(b.grupo)+'</h3><ul class="lista">';
+      }
       const k = esc(b.nome+'|'+b.vol);
       html += '<li class="beb"><div class="item-txt"><h3 class="item-nome">'+esc(b.nome)+'</h3><p class="item-ing">'+esc(b.vol)+'</p></div>'
         + '<div class="item-preco">'+brl(b.preco)+'</div>'
@@ -428,14 +440,14 @@ function renderCardapio(){
   }
   $('#abas').innerHTML = nav;
   $('#cardapio').innerHTML = html;
-  const taxa = CONFIG.taxaEntrega > 0 ? 'Taxa de entrega ' + brl(CONFIG.taxaEntrega) : 'Entrega grátis';
   const linhaHorario = [0,1,2,3,4,5,6].map(d => {
     const h = HORARIOS[d];
     return NOME_DIA[d] + ': ' + (h ? hm(h.abertura) + ' às ' + hm(h.fechamento) : 'Fechado');
   }).join(' · ');
   $('#rodape').innerHTML = '<strong>Horário de atendimento</strong><br>' + esc(linhaHorario)
-    + '<br><br>Food Park Valparaíso, Av Marginal<br><br>'
-    + esc(taxa + '. Pagamento: Pix, cartão na entrega ou dinheiro.');
+    + '<br><br><strong>' + esc(CONFIG.taxaEntrega > 0 ? 'Taxa de entrega' : 'Entrega') + '</strong><br>'
+    + esc(CONFIG.taxaEntrega > 0 ? brl(CONFIG.taxaEntrega) : 'Grátis') + '. Pagamento: Pix, cartão na entrega ou dinheiro.'
+    + '<br><br><strong>Endereço</strong><br>Food Park Valparaíso, Av Marginal';
 }
 $('#cardapio').addEventListener('click', e => {
   const pz = e.target.closest('[data-pizza]'); if (pz) return abrirPizza(pz.dataset.pizza, pz);
